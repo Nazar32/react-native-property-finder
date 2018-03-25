@@ -9,6 +9,8 @@ import {
   TouchableHighlight,
   FlatList,
   Text,
+  ToolbarAndroid,
+  DrawerLayoutAndroid,
 } from 'react-native';
 import Menu, {
   MenuProvider,
@@ -38,22 +40,39 @@ class ListItem extends React.PureComponent {
   render() {
     const item = this.props.item;
     const price = item.price_formatted.split(' ')[0];
-    return (      
-      <TouchableHighlight
-        onPress={this._onPress}
-        underlayColor='#dddddd'>
-        <View>
-          <View style={styles.rowContainer}>
-            <Image style={styles.thumb} source={{ uri: item.img_url }} />
-            <View style={styles.textContainer}>
-              <Text style={styles.price}>{price}</Text>
-              <Text style={styles.title}
-                numberOfLines={1}>{item.title}</Text>
-            </View>            
-          </View>
-          <View style={styles.separator}/>          
-        </View>
-      </TouchableHighlight>
+    return ( 
+      <DrawerLayoutAndroid
+        drawerWidth={300}
+        drawerHeight={300}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={this.renderNavigationView}
+        style={{ height: 150 }}
+      >
+        <ToolbarAndroid
+          title="Perceptron"          
+          onActionSelected={this.onActionSelected}
+          actions = {[
+            {title: "Log out", show: "never"}
+          ]}
+          style={{ height: 150 }}
+        >     
+          <TouchableHighlight
+            onPress={this._onPress}
+            underlayColor='#dddddd'>
+            <View>
+              <View style={styles.rowContainer}>
+                <Image style={styles.thumb} source={{ uri: item.img_url }} />
+                <View style={styles.textContainer}>
+                  <Text style={styles.price}>{price}</Text>
+                  <Text style={styles.title}
+                    numberOfLines={1}>{item.title}</Text>
+                </View>            
+              </View>
+              <View style={styles.separator}/>          
+            </View>
+          </TouchableHighlight>
+       </ToolbarAndroid>
+      </DrawerLayoutAndroid>
     );
   }
 }
