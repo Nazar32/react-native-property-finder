@@ -1,4 +1,3 @@
-
 'use strict';
 
 import React, { Component } from 'react'
@@ -23,13 +22,8 @@ import Menu, {
 const { ContextMenu, SlideInMenu, Popover } = renderers;
 
 class ListItem extends React.PureComponent {
-  _onPress = () => {
+  onPress = () => {
     this.props.onPressItem(this.props.index);
-  }
-
-  constructor(props, ctx) {
-    super(props, ctx);
-    this.state = { renderer: ContextMenu };
   }
   
   renderNavigationView() {
@@ -37,6 +31,18 @@ class ListItem extends React.PureComponent {
       <Text>Home</Text>
     </View>
   }
+
+  onActionSelected = (actionNumber) => {
+    switch (actionNumber) {
+      case 0:
+        this.onPress();
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   render() {
     const item = this.props.item;
     const price = item.price_formatted.split(' ')[0];
@@ -46,19 +52,21 @@ class ListItem extends React.PureComponent {
         drawerHeight={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={this.renderNavigationView}
-        style={{ height: 150 }}
+        style={{ height: 130 }}
       >
         <ToolbarAndroid
           title="Perceptron"          
           onActionSelected={this.onActionSelected}
           actions = {[
-            {title: "Log out", show: "never"}
+            {title: "Flat info", show: "never"},
+            {title: "Log out", show: "never"},
           ]}
-          style={{ height: 150 }}
+          style={{ height: 130 }}
         >     
           <TouchableHighlight
-            onPress={this._onPress}
-            underlayColor='#dddddd'>
+            onPress={this.onPress}
+            underlayColor='#dddddd'
+          >
             <View>
               <View style={styles.rowContainer}>
                 <Image style={styles.thumb} source={{ uri: item.img_url }} />
@@ -66,9 +74,9 @@ class ListItem extends React.PureComponent {
                   <Text style={styles.price}>{price}</Text>
                   <Text style={styles.title}
                     numberOfLines={1}>{item.title}</Text>
-                </View>            
+                </View>
               </View>
-              <View style={styles.separator}/>          
+              <View style={styles.separator}/>
             </View>
           </TouchableHighlight>
        </ToolbarAndroid>
@@ -89,12 +97,12 @@ export default class SearchResults extends Component {
       <ListItem
         item={item}
         index={index}
-        onPressItem={this._onPressItem}
+        onPressItem={this.onPressItem}
       />      
     </View>
   );
 
-  _onPressItem = (index) => {
+  onPressItem = (index) => {
     const { navigate, state } = this.props.navigation;
     navigate('Property', {property: state.params.listings[index]});
   };
@@ -113,12 +121,12 @@ export default class SearchResults extends Component {
 
 const styles = StyleSheet.create({
   thumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10
+    width: 100,
+    height: 100,
+    marginRight: 10,
   },
   textContainer: {
-    flex: 1
+    flex: 1,
   },
   separator: {
     height: 1,
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#48BBEC'
+    color: '#48BBEC',
   },
   title: {
     fontSize: 20,
@@ -135,11 +143,11 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    padding: 10
+    paddingBottom: 10,
   },
   container: {
     flexDirection: 'column',
-    padding: 30,
+    padding: 0,
   },
   backdrop: {
     backgroundColor: 'red',
@@ -156,7 +164,7 @@ const triggerStyles = {
   },
   triggerOuterWrapper: {
     backgroundColor: 'orange',
-    padding: 5,
+    padding: 0,
     flex: 1,
     zIndex: 2,
   },
@@ -178,7 +186,7 @@ const triggerStyles = {
 const optionsStyles = {
   optionsContainer: {
     backgroundColor: 'green',
-    padding: 5,
+    padding: 0,
     zIndex: 2,
   },
   optionsWrapper: {

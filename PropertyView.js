@@ -14,7 +14,6 @@ export default class PropertyView extends Component {
     title: 'Property',
   };
 
-
   render() {
     const { params } = this.props.navigation.state;
     var property = params.property;
@@ -27,7 +26,7 @@ export default class PropertyView extends Component {
     var price = property.price_formatted.split(' ')[0];
 
     return (
-      <View style={styles.container}>
+      <View>
         <Image style={styles.image}
             source={{uri: property.img_url}} />
         <View style={styles.heading}>
@@ -37,16 +36,12 @@ export default class PropertyView extends Component {
         </View>
         <Text style={styles.description}>{stats}</Text>
         <Text style={styles.description}>{property.summary}</Text>
-        
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 65
-  },
   heading: {
     backgroundColor: '#F8F8F8',
   },
